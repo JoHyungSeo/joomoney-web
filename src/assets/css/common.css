@@ -1,0 +1,29 @@
+/* ===============================
+   Footer
+   =============================== */
+.common-footer {
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.common-links {
+  display: flex;
+  gap: 32px;
+}
+
+.common-links div {
+  font-size: 14px;
+  font-weight: 300;
+  text-decoration: none;
+}
+
+.color {
+  color: #929AA5;
+  transition: color 0.3s ease;
+}
+
+.color:hover {
+  color: #F0B90B;
+}
