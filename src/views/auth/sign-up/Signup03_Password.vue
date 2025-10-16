@@ -86,13 +86,11 @@ const passwordInput = ref<HTMLInputElement | null>(null)
 const passwordError = ref("")
 const showPassword = ref(false)
 
-// 규칙 검사
 const hasLength = computed(() => password.value.length >= 8 && password.value.length <= 128)
 const hasUpper = computed(() => /[A-Z]/.test(password.value))
 const hasNumber = computed(() => /[0-9]/.test(password.value))
 const hasSpecial = computed(() => /[!@#$%^&*(),.?":{}|<>_\-]/.test(password.value))
 
-// 규칙 목록
 const passwordRules = computed(() => [
   { text: t('auth.signUp.password.rules.length'), valid: hasLength.value },
   { text: t('auth.signUp.password.rules.upperCase'), valid: hasUpper.value },
@@ -100,7 +98,6 @@ const passwordRules = computed(() => [
   { text: t('auth.signUp.password.rules.special'), valid: hasSpecial.value },
 ])
 
-// 패스워드 검사
 const validatePassword = () => {
   if (!password.value.trim()) {
     passwordError.value = t("auth.error.password.required")
@@ -109,25 +106,22 @@ const validatePassword = () => {
   }
 }
 
-// focus 시 에러 초기화
 const clearPasswordError = () => {
   passwordError.value = ""
 }
 
-// Continue 버튼 클릭
 const onSubmit = () => {
   validatePassword()
 
   if (!passwordError.value) {
-    // ✅ Pinia store에 저장
     store.signup.setPassword(password.value)
     console.log("🚀 회원가입 - 패스워드 입력:", store.signup.password)
-    goPage("Signup04_Birthday&Gender") // 다음 단계로 이동
+    goPage("Signup04_Birthday&Gender")
   }
 }
 
 onMounted(() => {
-  passwordInput.value?.focus()  // 페이지 들어오자마자 자동 focus
+  passwordInput.value?.focus()
 })
 </script>
 

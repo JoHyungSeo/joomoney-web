@@ -8,7 +8,6 @@ import '@/style.css'
 import '@/assets/css/index.css'
 
 const app = createApp(App)
-
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 

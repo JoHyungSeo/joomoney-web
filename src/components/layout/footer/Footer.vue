@@ -62,15 +62,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import { goPage } from "@/modules/utils/util";
-import useStore from "@/stores";
+import { ref, computed } from "vue"
+import { goPage } from "@/modules/utils/util"
+import useStore from "@/stores"
 
-const store = useStore();
+const store = useStore()
 
-const search = ref("");
-const isHover = ref(false);
-const isOpen = ref(false);
+const search = ref("")
+const isHover = ref(false)
+const isOpen = ref(false)
 
 </script>
 

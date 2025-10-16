@@ -3,7 +3,6 @@ import type { RouteRecordRaw } from "vue-router"
 import ErrorRoutes from "@/router/errorRoutes"
 import AuthRoutes from "@/router/authRoutes"
 
-// 라우트 메타 확장 타입
 declare module "vue-router" {
   interface RouteMeta {
     name?: string
@@ -50,7 +49,6 @@ const routes: RouteRecordRaw[] = [
   },
 ]
 
-// 외부 라우트 병합
 routes.push(ErrorRoutes)
 routes.push(...AuthRoutes)
 

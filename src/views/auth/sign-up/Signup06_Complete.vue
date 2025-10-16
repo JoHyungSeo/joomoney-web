@@ -24,7 +24,6 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-// 필요하다면 emit이나 goPage("Home") 같은 동작 추가 가능
 </script>
 
 <style scoped>

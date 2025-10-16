@@ -117,7 +117,6 @@ const showPassword = ref(false)
 const emailError = ref("")
 const passwordError = ref("")
 
-// 이메일 검사
 const validateEmail = () => {
   if (!email.value.trim()) {
     emailError.value = t("auth.error.email.required")
@@ -126,14 +125,12 @@ const validateEmail = () => {
   }
 }
 
-// 패스워드 검사
 const validatePassword = () => {
   if (!password.value.trim()) {
     passwordError.value = t("auth.error.password.required")
   }
 }
 
-// focus 시 에러 초기화
 const clearEmailError = () => {
   emailError.value = ""
 }
@@ -141,7 +138,6 @@ const clearPasswordError = () => {
   passwordError.value = ""
 }
 
-// 로그인 버튼 클릭
 const onSubmit = () => {
   validateEmail()
   validatePassword()

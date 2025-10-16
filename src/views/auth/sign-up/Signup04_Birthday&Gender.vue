@@ -139,21 +139,18 @@ const monthError = ref(false)
 const dayError = ref(false)
 const birthdayError = ref("")
 
-// gender options
 const genderOptions = [
   { value: "male", label: t("auth.signUp.birthday_gender.male") },
   { value: "female", label: t("auth.signUp.birthday_gender.female") },
   { value: "other", label: t("auth.signUp.birthday_gender.other") }
 ]
 
-// 인디케이터 위치
 const indicatorStyle = computed(() => {
   const idx = genderOptions.findIndex(o => o.value === gender.value)
   if (idx === -1) return {}
   return { transform: `translateX(${idx * 100}%)` }
 })
 
-/** focus ⇒ clear errors */
 const clearErrors = () => {
   birthdayError.value = ""
   yearError.value = false
@@ -161,14 +158,12 @@ const clearErrors = () => {
   dayError.value = false
 }
 
-// Year input
 const onYearInput = (e: Event) => {
   let v = (e.target as HTMLInputElement).value.replace(/\D/g, "")
   if (v.length > 4) v = v.slice(0, 4)
   birthdayYear.value = v
 }
 
-// Day input
 const onDayInput = (e: Event) => {
   let v = (e.target as HTMLInputElement).value.replace(/\D/g, "")
   if (!v) { birthdayDay.value = ""; return }
@@ -178,13 +173,11 @@ const onDayInput = (e: Event) => {
   birthdayDay.value = String(num)
 }
 
-// Month Clear
 const clearMonth = () => {
   birthdayMonth.value = ""
   isMonthOpen.value = false
 }
 
-// Month dropdown
 const toggleMonth = () => { isMonthOpen.value = !isMonthOpen.value }
 const selectMonth = (n: number) => {
   birthdayMonth.value = String(n)
@@ -198,7 +191,6 @@ const handleClickOutside = (e: MouseEvent) => {
 onMounted(() => document.addEventListener("click", handleClickOutside))
 onBeforeUnmount(() => document.removeEventListener("click", handleClickOutside))
 
-// month typing
 let inputBuffer = ""
 const onMonthKeydown = (e: KeyboardEvent) => {
   if (e.key >= "0" && e.key <= "9") {
@@ -217,7 +209,6 @@ const onMonthKeydown = (e: KeyboardEvent) => {
   if (e.key === "Enter" || e.key === "Escape") { isMonthOpen.value = false }
 }
 
-/** birthday validation */
 const validateBirthday = (): boolean => {
   yearError.value = false
   monthError.value = false
@@ -228,7 +219,7 @@ const validateBirthday = (): boolean => {
   const m = birthdayMonth.value.trim()
   const d = birthdayDay.value.trim()
 
-  if (!y && !m && !d) return true  // optional
+  if (!y && !m && !d) return true
 
   if ((!y && (m || d)) || (!m && (y || d)) || (!d && (y || m))) {
     birthdayError.value = t("auth.error.birthday.required")
@@ -265,7 +256,6 @@ const validateBirthday = (): boolean => {
   return true
 }
 
-// submit
 const onSubmit = () => {
   if (!validateBirthday()) return
   console.log("🚀 회원가입 - 생일/성별:", {

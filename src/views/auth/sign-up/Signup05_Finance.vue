@@ -96,7 +96,6 @@ const paydayInput = ref<HTMLInputElement | null>(null)
 const isCurrencyOpen = ref(false)
 const currencyRef = ref<HTMLElement | null>(null)
 
-// 입력시 숫자만 허용 & 1~31 사이 제한
 const onPaydayInput = (e: Event) => {
   let v = (e.target as HTMLInputElement).value.replace(/\D/g, "")
   if (!v) {
@@ -109,7 +108,6 @@ const onPaydayInput = (e: Event) => {
   payday.value = String(num)
 }
 
-// 통화 옵션
 const currencyOptions = [
   { value: "USD", label: "USD - US Dollar" },
   { value: "KRW", label: "KRW - Korean Won" },
@@ -131,15 +129,12 @@ const handleClickOutsideCurrency = (e: MouseEvent) => {
 onMounted(() => document.addEventListener("click", handleClickOutsideCurrency))
 onBeforeUnmount(() => document.removeEventListener("click", handleClickOutsideCurrency))
 
-// 화살표 키 지원
 const onCurrencyKeydown = (e: KeyboardEvent) => {
   if (e.key === "ArrowDown") { isCurrencyOpen.value = true; e.preventDefault() }
   if (e.key === "Enter" || e.key === "Escape") { isCurrencyOpen.value = false }
 }
 
-// Continue 버튼 클릭
 const onSubmit = () => {
-  // ✅ Pinia store에 저장
   store.signup.setPayday(payday.value)
   store.signup.setCurrency(currency.value)
 
@@ -148,11 +143,11 @@ const onSubmit = () => {
     currency: store.signup.currency,
   })
 
-  goPage("Signup06_Complete") // 다음 단계로 이동
+  goPage("Signup06_Complete")
 }
 
 onMounted(() => {
-  paydayInput.value?.focus() // 페이지 들어오자마자 자동 focus
+  paydayInput.value?.focus()
 })
 </script>
 

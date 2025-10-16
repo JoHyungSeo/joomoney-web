@@ -19,19 +19,19 @@ const errorRoutes: RouteRecordRaw = {
   },
   children: [
     {
-      path: "not-found",  // ✅ 상대경로
+      path: "not-found",
       name: "PageNotFound",
       component: () => import("@/views/error/PageNotFound.vue"),
       meta: getMeta("PageNotFound", "Page Not Found | Balance"),
     },
     {
-      path: "network-error",   // ✅ 네트워크 에러 추가 예시
+      path: "network-error",
       name: "NetworkError",
       component: () => import("@/views/error/NetworkError.vue"),
       meta: getMeta("NetworkError", "Network Error | Balance"),
     },
     // {
-    //   path: "server",    // ✅ 서버 에러 추가 예시
+    //   path: "server",
     //   name: "ServerError",
     //   component: () => import("@/views/error/ServerError.vue"),
     //   meta: getMeta("ServerError", "Server Error | Balance"),

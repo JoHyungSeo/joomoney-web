@@ -47,7 +47,7 @@ const authRoutes: RouteRecordRaw[] = [
     path: "/sign-up/finance",
     name: "Signup05_Finance",
     component: () => import("@/views/auth/sign-up/Signup05_Finance.vue"),
-    meta: getMeta("Signup05_Finance", "Sign Up | Balance"), // ✅ 오타 수정
+    meta: getMeta("Signup05_Finance", "Sign Up | Balance"),
   },
   {
     path: "/sign-up/complete",
