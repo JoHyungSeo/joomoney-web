@@ -1,71 +1,42 @@
-import i18n from "@/modules/i18n";
-import { defineStore } from "pinia";
-import { ref, watch } from "vue";
+import { defineStore } from "pinia"
+import { ref, watch } from "vue"
+import useApi from "@/modules/api"
 
-// 지원하는 언어 목록
-export const SUPPORTED_LANGUAGES = ["ko", "en"] as const;
-export type SupportedLanguage = typeof SUPPORTED_LANGUAGES[number];
+const api = useApi()
 
-// 기본 언어 결정 함수
-const detectDefaultLanguage = (): SupportedLanguage => {
-  const savedLang = localStorage.getItem("language") as SupportedLanguage | null;
-  if (savedLang && SUPPORTED_LANGUAGES.includes(savedLang)) {
-    return savedLang;
+// locales 폴더에서 지원 언어 자동 수집 (ko.ts, en.ts, fr.ts 등)
+const getSupportedLanguages = (): readonly string[] => {
+  return Object.freeze(
+    Object.keys(import.meta.glob("@/modules/i18n/locales/*.{ts,js}"))
+      .map((p) => p.match(/\/locales\/([A-Za-z-]+)\.(?:ts|js)$/)?.[1])
+      .filter((v): v is string => !!v)
+      .sort()
+  )
+}
+
+// 현재 언어 감지
+const getCurrentLanguage = (): string => {
+  const localLanguage = localStorage.getItem("language") as string
+  const browserLanguage = navigator.language.toLowerCase() as string
+  const language = (localLanguage || browserLanguage).split(/[-_]/).shift() as string
+
+  if (getSupportedLanguages().includes(language)) { return language }
+
+  return "en"
+}
+
+// 서버에서 언어 코드 목록 가져오기
+const getAllLanguages = async () => {
+  try {
+    const res = await api.common.getCommonCodes("LANGUAGE_TYPE")
+    return res.data.codes ?? []
+  } catch (e) {
+    console.error("[i18n] Failed to get allLanguages : ", e)
   }
-  return navigator.language.startsWith("ko") ? "ko" : "en";
-};
-
-export const DEFAULT_LANGUAGE: SupportedLanguage = detectDefaultLanguage();
+}
 
 export const useLanguageStore = defineStore("language", () => {
-  const currentLanguage = ref<SupportedLanguage>(DEFAULT_LANGUAGE);
-
-  // 공통 업데이트 함수
-  const applyLanguage = (lang: SupportedLanguage) => {
-    i18n.global.locale.value = lang;
-    localStorage.setItem("language", lang); // 항상 localStorage에 저장
-    document.documentElement.lang = lang;
-  };
-
-  // 언어 변경 감지 및 즉시 적용
-  watch(
-    currentLanguage,
-    (newLang) => {
-      if (newLang) {
-        applyLanguage(newLang);
-      }
-    },
-    { immediate: true }
-  );
-
-  // 언어 설정 함수
-  const setLanguage = (language: string) => {
-    const normalized = language.toLowerCase().trim() as SupportedLanguage;
-    if (isValidLanguage(normalized)) {
-      currentLanguage.value = normalized;
-      applyLanguage(normalized);
-    }
-  };
-
-  // 현재 언어 가져오기
-  const getLanguage = (): SupportedLanguage => {
-    return currentLanguage.value || DEFAULT_LANGUAGE;
-  };
-
-  // 지원 언어인지 검사
-  const isValidLanguage = (language?: string): language is SupportedLanguage => {
-    return (
-      !!language &&
-      SUPPORTED_LANGUAGES.includes(language.toLowerCase().trim() as SupportedLanguage)
-    );
-  };
-
-  return {
-    currentLanguage,
-    setLanguage,
-    getLanguage,
-    isValidLanguage,
-    SUPPORTED_LANGUAGES,
-    DEFAULT_LANGUAGE,
-  };
+  console.log("[i18n] supportedLanguages : ", getSupportedLanguages())
+  console.log("[i18n] currentLanguage : ", getCurrentLanguage())
+  console.log("[i18n] getAllLanguages : ", getAllLanguages())
 });
