@@ -146,7 +146,7 @@ const genderOptions = [
 ]
 
 const indicatorStyle = computed(() => {
-  const idx = genderOptions.findIndex(o => o.value === gender.value)
+  const idx = genderOptions.findIndex(genderOption => genderOption.value === gender.value)
   if (idx === -1) return {}
   return { transform: `translateX(${idx * 100}%)` }
 })
@@ -159,15 +159,15 @@ const clearErrors = () => {
 }
 
 const onYearInput = (e: Event) => {
-  let v = (e.target as HTMLInputElement).value.replace(/\D/g, "")
-  if (v.length > 4) v = v.slice(0, 4)
-  birthdayYear.value = v
+  let year = (e.target as HTMLInputElement).value.replace(/\D/g, "")
+  if (year.length > 4) year = year.slice(0, 4)
+  birthdayYear.value = year
 }
 
 const onDayInput = (e: Event) => {
-  let v = (e.target as HTMLInputElement).value.replace(/\D/g, "")
-  if (!v) { birthdayDay.value = ""; return }
-  let num = parseInt(v, 10)
+  let day = (e.target as HTMLInputElement).value.replace(/\D/g, "")
+  if (!day) { birthdayDay.value = ""; return }
+  let num = parseInt(day, 10)
   if (num < 1) num = 1
   if (num > 31) num = 31
   birthdayDay.value = String(num)
@@ -179,8 +179,8 @@ const clearMonth = () => {
 }
 
 const toggleMonth = () => { isMonthOpen.value = !isMonthOpen.value }
-const selectMonth = (n: number) => {
-  birthdayMonth.value = String(n)
+const selectMonth = (number: number) => {
+  birthdayMonth.value = String(number)
   isMonthOpen.value = false
 }
 const handleClickOutside = (e: MouseEvent) => {
@@ -215,23 +215,23 @@ const validateBirthday = (): boolean => {
   dayError.value = false
   birthdayError.value = ""
 
-  const y = birthdayYear.value.trim()
-  const m = birthdayMonth.value.trim()
-  const d = birthdayDay.value.trim()
+  const year = birthdayYear.value.trim()
+  const month = birthdayMonth.value.trim()
+  const day = birthdayDay.value.trim()
 
-  if (!y && !m && !d) return true
+  if (!year && !month && !day) return true
 
-  if ((!y && (m || d)) || (!m && (y || d)) || (!d && (y || m))) {
+  if ((!year && (month || day)) || (!month && (year || day)) || (!day && (year || month))) {
     birthdayError.value = t("auth.error.birthday.required")
-    if (!y) yearError.value = true
-    if (!m) monthError.value = true
-    if (!d) dayError.value = true
+    if (!year) yearError.value = true
+    if (!month) monthError.value = true
+    if (!day) dayError.value = true
     return false
   }
 
-  const yy = parseInt(y, 10)
-  const mm = parseInt(m, 10)
-  const dd = parseInt(d, 10)
+  const yy = parseInt(year, 10)
+  const mm = parseInt(month, 10)
+  const dd = parseInt(day, 10)
 
   const inputDate = new Date(yy, mm - 1, dd)
   const today = new Date()
@@ -258,12 +258,8 @@ const validateBirthday = (): boolean => {
 
 const onSubmit = () => {
   if (!validateBirthday()) return
-  console.log("🚀 회원가입 - 생일/성별:", {
-    year: birthdayYear.value,
-    month: birthdayMonth.value,
-    day: birthdayDay.value,
-    gender: gender.value,
-  })
+  console.log("🚀 회원가입 - 생일:", birthdayYear.value + "-" + birthdayMonth.value + "-" + birthdayDay.value )
+  console.log("🚀 회원가입 - 성별:", gender.value)
   goPage("Signup05_Finance")
 }
 </script>

@@ -76,7 +76,6 @@ const onSubmit = () => {
 
   if (!nameError.value) {
     store.signup.setName(name.value)
-
     console.log("🚀 회원가입 - 이름 입력:", store.signup.name)
     goPage("Signup02_Email")
   }
