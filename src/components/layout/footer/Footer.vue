@@ -72,6 +72,27 @@ const search = ref("")
 const isHover = ref(false)
 const isOpen = ref(false)
 
+const currentLanguage = computed(() => store.language.currentLanguage)
+const allLanguages = computed(() => store.language.allLanguages)
+
+const currentLanguageLabel = computed(() => {
+  const language = allLanguages.value.find((lang) => lang.code === currentLanguage.value)
+  return language?.codeName ?? currentLanguage.value.toUpperCase()
+})
+
+const filteredLanguages = computed(() => {
+  const searchLanguage = search.value.trim().toLowerCase()
+  if (!searchLanguage) return allLanguages.value
+  return allLanguages.value.filter((language) =>
+    language.codeName.toLowerCase().includes(searchLanguage) || language.code.toLowerCase().includes(searchLanguage)
+  )
+})
+
+const selectLanguage = (language: { code: string; codeName: string }) => {
+  store.language.setLanguage(language.code)
+  isOpen.value = false
+  search.value = ""
+}
 </script>
 
 <style scoped>
