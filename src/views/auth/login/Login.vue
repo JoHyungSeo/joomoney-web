@@ -31,7 +31,7 @@
                 @click="email = ''"
               />
             </div>
-            <div v-if="emailError" class="error-msg">{{ emailError }}</div>
+            <div v-if="emailError" class="error-msg">{{ t(emailError) }}</div>
           </div>
 
           <!-- Password -->
@@ -59,7 +59,7 @@
                 @click="showPassword = !showPassword"
               />
             </div>
-            <div v-if="passwordError" class="error-msg">{{ passwordError }}</div>
+            <div v-if="passwordError" class="error-msg">{{ t(passwordError) }}</div>
           </div>
 
           <button class="form-button" type="submit">{{ t("auth.button.login") }}</button>
@@ -119,15 +119,15 @@ const passwordError = ref("")
 
 const validateEmail = () => {
   if (!email.value.trim()) {
-    emailError.value = t("auth.error.email.required")
+    emailError.value = "auth.error.email.required"
   } else if (!/^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(email.value)) {
-    emailError.value = t("auth.error.email.invalid")
+    emailError.value = "auth.error.email.invalid"
   }
 }
 
 const validatePassword = () => {
   if (!password.value.trim()) {
-    passwordError.value = t("auth.error.password.required")
+    passwordError.value = "auth.error.password.required"
   }
 }
 

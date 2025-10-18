@@ -31,7 +31,7 @@
               <!-- Month -->
               <div
                 class="custom-select"
-                ref="monthRef"
+                ref="monthInput"
                 role="button"
                 tabindex="0"
                 aria-haspopup="listbox"
@@ -82,7 +82,7 @@
                 @focus="clearErrors"
               />
             </div>
-            <div v-if="birthdayError" class="error-msg">{{ birthdayError }}</div>
+            <div v-if="birthdayError" class="error-msg">{{ t(birthdayError) }}</div>
           </div>
 
           <!-- Gender -->
@@ -98,7 +98,7 @@
                 :class="{ active: gender === option.value }"
                 @click="gender = (gender === option.value ? '' : option.value)"
               >
-                {{ option.label }}
+                {{ t(option.label) }}
               </button>
             </div>
           </div>
@@ -124,15 +124,10 @@ import { useI18n } from "vue-i18n"
 const { t } = useI18n()
 
 const store = useStore()
-const {
-  birthdayYear,
-  birthdayMonth,
-  birthdayDay,
-  gender
-} = storeToRefs(store.signup)
 
+const { birthdayYear, birthdayMonth, birthdayDay, gender } = storeToRefs(store.signup)
+const monthInput = ref<HTMLElement | null>(null)
 const isMonthOpen = ref(false)
-const monthRef = ref<HTMLElement | null>(null)
 
 const yearError = ref(false)
 const monthError = ref(false)
@@ -140,14 +135,16 @@ const dayError = ref(false)
 const birthdayError = ref("")
 
 const genderOptions = [
-  { value: "male", label: t("auth.signUp.birthday_gender.male") },
-  { value: "female", label: t("auth.signUp.birthday_gender.female") },
-  { value: "other", label: t("auth.signUp.birthday_gender.other") }
+  { value: "male", label: "auth.signUp.birthday_gender.male" },
+  { value: "female", label: "auth.signUp.birthday_gender.female" },
+  { value: "other", label: "auth.signUp.birthday_gender.other" }
 ]
 
 const indicatorStyle = computed(() => {
   const idx = genderOptions.findIndex(genderOption => genderOption.value === gender.value)
+
   if (idx === -1) return {}
+
   return { transform: `translateX(${idx * 100}%)` }
 })
 
@@ -160,17 +157,28 @@ const clearErrors = () => {
 
 const onYearInput = (e: Event) => {
   let year = (e.target as HTMLInputElement).value.replace(/\D/g, "")
-  if (year.length > 4) year = year.slice(0, 4)
+
+  if (year.length > 4) {
+    year = year.slice(0, 4)
+  }
+
   birthdayYear.value = year
 }
 
 const onDayInput = (e: Event) => {
   let day = (e.target as HTMLInputElement).value.replace(/\D/g, "")
-  if (!day) { birthdayDay.value = ""; return }
-  let num = parseInt(day, 10)
-  if (num < 1) num = 1
-  if (num > 31) num = 31
-  birthdayDay.value = String(num)
+
+  if (!day) {
+    birthdayDay.value = ""
+    return
+  }
+
+  let dayNumber = parseInt(day, 10)
+
+  if (dayNumber < 1) dayNumber = 1
+  if (dayNumber > 31) dayNumber = 31
+
+  birthdayDay.value = String(dayNumber)
 }
 
 const clearMonth = () => {
@@ -178,35 +186,57 @@ const clearMonth = () => {
   isMonthOpen.value = false
 }
 
-const toggleMonth = () => { isMonthOpen.value = !isMonthOpen.value }
-const selectMonth = (number: number) => {
-  birthdayMonth.value = String(number)
+const toggleMonth = () => {
+  isMonthOpen.value = !isMonthOpen.value
+}
+
+const selectMonth = (selectedMonth: number) => {
+  birthdayMonth.value = String(selectedMonth)
   isMonthOpen.value = false
 }
+
 const handleClickOutside = (e: MouseEvent) => {
-  if (monthRef.value && !monthRef.value.contains(e.target as Node)) {
+  if (monthInput.value && !monthInput.value.contains(e.target as Node)) {
     isMonthOpen.value = false
   }
 }
-onMounted(() => document.addEventListener("click", handleClickOutside))
-onBeforeUnmount(() => document.removeEventListener("click", handleClickOutside))
 
 let inputBuffer = ""
 const onMonthKeydown = (e: KeyboardEvent) => {
   if (e.key >= "0" && e.key <= "9") {
     inputBuffer += e.key
-    if (inputBuffer === "0") { inputBuffer = ""; return }
-    const num = parseInt(inputBuffer, 10)
-    if (num >= 1 && num <= 12) {
-      birthdayMonth.value = String(num)
-      if (num < 10) setTimeout(() => { inputBuffer = "" }, 1000)
-      else inputBuffer = ""
+
+    if (inputBuffer === "0") {
+      inputBuffer = ""
+      return
+    }
+
+    const inputBufferNumber = parseInt(inputBuffer, 10)
+
+    if (inputBufferNumber >= 1 && inputBufferNumber <= 12) {
+      birthdayMonth.value = String(inputBufferNumber)
+
+      if (inputBufferNumber < 10) {
+        setTimeout(() => {
+          inputBuffer = ""
+        }, 1000)
+      }
+      else {
+        inputBuffer = ""
+      }
     } else {
       inputBuffer = e.key
     }
   }
-  if (e.key === "ArrowDown") { isMonthOpen.value = true; e.preventDefault() }
-  if (e.key === "Enter" || e.key === "Escape") { isMonthOpen.value = false }
+  
+  if (e.key === "ArrowDown") {
+    isMonthOpen.value = true
+    e.preventDefault()
+  }
+
+  if (e.key === "Enter" || e.key === "Escape") {
+    isMonthOpen.value = false
+  }
 }
 
 const validateBirthday = (): boolean => {
@@ -222,34 +252,33 @@ const validateBirthday = (): boolean => {
   if (!year && !month && !day) return true
 
   if ((!year && (month || day)) || (!month && (year || day)) || (!day && (year || month))) {
-    birthdayError.value = t("auth.error.birthday.required")
+    birthdayError.value = "auth.error.birthday.required"
+
     if (!year) yearError.value = true
     if (!month) monthError.value = true
     if (!day) dayError.value = true
+
     return false
   }
 
-  const yy = parseInt(year, 10)
-  const mm = parseInt(month, 10)
-  const dd = parseInt(day, 10)
+  const yearNumber = parseInt(year, 10)
+  const monthNumber = parseInt(month, 10)
+  const dayNumber = parseInt(day, 10)
 
-  const inputDate = new Date(yy, mm - 1, dd)
+  const inputDate = new Date(yearNumber, monthNumber - 1, dayNumber)
   const today = new Date()
 
-  if (
-    isNaN(inputDate.getTime()) ||
-    inputDate.getFullYear() !== yy ||
-    inputDate.getMonth() !== mm - 1 ||
-    inputDate.getDate() !== dd
-  ) {
-    birthdayError.value = t("auth.error.birthday.invalid")
+  if (isNaN(inputDate.getTime()) || inputDate.getFullYear() !== yearNumber || inputDate.getMonth() !== monthNumber - 1 || inputDate.getDate() !== dayNumber) {
+    birthdayError.value = "auth.error.birthday.invalid"
     yearError.value = monthError.value = dayError.value = true
+
     return false
   }
 
   if (inputDate > today) {
-    birthdayError.value = t("auth.error.birthday.rule")
+    birthdayError.value = "auth.error.birthday.rule"
     yearError.value = monthError.value = dayError.value = true
+
     return false
   }
 
@@ -258,10 +287,16 @@ const validateBirthday = (): boolean => {
 
 const onSubmit = () => {
   if (!validateBirthday()) return
+
   console.log("🚀 회원가입 - 생일:", birthdayYear.value + "-" + birthdayMonth.value + "-" + birthdayDay.value )
   console.log("🚀 회원가입 - 성별:", gender.value)
+
   goPage("Signup05_Finance")
 }
+
+onMounted(() => document.addEventListener("click", handleClickOutside))
+
+onBeforeUnmount(() => document.removeEventListener("click", handleClickOutside))
 </script>
 
 <style scoped>

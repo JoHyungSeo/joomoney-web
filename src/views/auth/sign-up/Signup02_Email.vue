@@ -32,7 +32,7 @@
                 @click="email = ''"
               />
             </div>
-            <div v-if="emailError" class="error-msg">{{ emailError }}</div>
+            <div v-if="emailError" class="error-msg">{{ t(emailError) }}</div>
           </div>
 
           <button class="form-button" type="submit">{{ t("auth.button.continue") }}</button>
@@ -63,9 +63,9 @@ const emailError = ref("")
 
 const validateEmail = () => {
   if (!email.value.trim()) {
-    emailError.value = t("auth.error.email.required")
+    emailError.value = "auth.error.email.required"
   } else if (!/^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(email.value)) {
-    emailError.value = t("auth.error.email.invalid")
+    emailError.value = "auth.error.email.invalid"
   }
 }
 
@@ -78,7 +78,9 @@ const onSubmit = () => {
 
   if (!emailError.value) {
     store.signup.setEmail(email.value)
+
     console.log("🚀 회원가입 - 이메일 입력:", store.signup.email)
+    
     goPage("Signup03_Password")
   }
 }

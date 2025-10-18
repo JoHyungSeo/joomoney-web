@@ -35,7 +35,7 @@
             <div class="custom-inputs">
               <div
                 class="custom-select"
-                ref="currencyRef"
+                ref="currencyInput"
                 role="button"
                 tabindex="0"
                 aria-haspopup="listbox"
@@ -45,7 +45,7 @@
                 @keydown="onCurrencyKeydown"
               >
                 <span class="select-label" :class="{ placeholder: !currency }">
-                  {{ currency || 'Select currency' }}
+                  {{ currency || 'Select Currency' }}
                 </span>
                 <img
                   src="@/assets/images/icons/arrow-down.svg"
@@ -55,13 +55,13 @@
                 />
                 <ul v-if="isCurrencyOpen" class="options" role="listbox">
                   <li
-                    v-for="opt in currencyOptions"
-                    :key="opt.value"
+                    v-for="option in currencyOptions"
+                    :key="option.code"
                     role="option"
-                    :aria-selected="currency === opt.value"
-                    @click.stop="selectCurrency(opt.value)"
+                    :aria-selected="currency === option.code"
+                    @click.stop="selectCurrency(option.code)"
                   >
-                    {{ opt.label }}
+                    {{ option.code }} - {{ option.codeName }}
                   </li>
                 </ul>
               </div>
@@ -84,71 +84,90 @@ import { goPage } from "@/modules/utils/util"
 import { ref, onMounted, onBeforeUnmount } from "vue"
 import { storeToRefs } from "pinia"
 import useStore from "@/stores"
+import useApi from "@/modules/api"
 import { useI18n } from "vue-i18n"
 
 const { t } = useI18n()
-
 const store = useStore()
+const api = useApi()
+
 const { payday, currency } = storeToRefs(store.signup)
-
 const paydayInput = ref<HTMLInputElement | null>(null)
-
+const currencyInput = ref<HTMLElement | null>(null)
 const isCurrencyOpen = ref(false)
-const currencyRef = ref<HTMLElement | null>(null)
+
+const currencyOptions = ref<{ code: string, codeName: string }[]>([])
+
+const loadCurrencyOptions = async () => {
+  try {
+    const res = await api.common.getCommonCodes("CURRENCY_TYPE")
+
+    if (res?.data?.codes) {
+      currencyOptions.value = res.data.codes
+    }
+  } catch (e) {
+    console.error("[Currency] Failed to load:", e)
+  }
+}
 
 const onPaydayInput = (e: Event) => {
-  let v = (e.target as HTMLInputElement).value.replace(/\D/g, "")
-  if (!v) {
+  let day = (e.target as HTMLInputElement).value.replace(/\D/g, "")
+
+  if (!day) {
     payday.value = ""
     return
   }
-  let num = parseInt(v, 10)
-  if (num < 1) num = 1
-  if (num > 31) num = 31
-  payday.value = String(num)
+
+  let dayNumber = parseInt(day, 10)
+
+  if (dayNumber < 1) dayNumber = 1
+  if (dayNumber > 31) dayNumber = 31
+
+  payday.value = String(dayNumber)
 }
 
-const currencyOptions = [
-  { value: "USD", label: "USD - US Dollar" },
-  { value: "KRW", label: "KRW - Korean Won" },
-  { value: "EUR", label: "EUR - Euro" },
-  { value: "JPY", label: "JPY - Japanese Yen" }
-]
+const toggleCurrency = () => {
+  isCurrencyOpen.value = !isCurrencyOpen.value
+}
 
-const toggleCurrency = () => { isCurrencyOpen.value = !isCurrencyOpen.value }
-const selectCurrency = (val: string) => {
-  currency.value = val
+const selectCurrency = (selectedCurrency: string) => {
+  currency.value = selectedCurrency
   isCurrencyOpen.value = false
 }
+
 const handleClickOutsideCurrency = (e: MouseEvent) => {
-  if (currencyRef.value && !currencyRef.value.contains(e.target as Node)) {
+  if (currencyInput.value && !currencyInput.value.contains(e.target as Node)) {
     isCurrencyOpen.value = false
   }
 }
-
-onMounted(() => document.addEventListener("click", handleClickOutsideCurrency))
-onBeforeUnmount(() => document.removeEventListener("click", handleClickOutsideCurrency))
-
 const onCurrencyKeydown = (e: KeyboardEvent) => {
-  if (e.key === "ArrowDown") { isCurrencyOpen.value = true; e.preventDefault() }
-  if (e.key === "Enter" || e.key === "Escape") { isCurrencyOpen.value = false }
+  if (e.key === "ArrowDown") {
+    isCurrencyOpen.value = true
+    e.preventDefault()
+  }
+
+  if (e.key === "Enter" || e.key === "Escape") {
+    isCurrencyOpen.value = false
+  }
 }
 
 const onSubmit = () => {
   store.signup.setPayday(payday.value)
   store.signup.setCurrency(currency.value)
 
-  console.log("🚀 회원가입 - 월급날/통화:", {
-    payday: store.signup.payday,
-    currency: store.signup.currency,
-  })
+  console.log("🚀 회원가입 - 월급날:", payday.value)
+  console.log("🚀 회원가입 - 통화:", currency.value)
 
   goPage("Signup06_Complete")
 }
 
 onMounted(() => {
+  loadCurrencyOptions()
   paydayInput.value?.focus()
+  document.addEventListener("click", handleClickOutsideCurrency)
 })
+
+onBeforeUnmount(() => document.removeEventListener("click", handleClickOutsideCurrency))
 </script>
 
 <style setup>

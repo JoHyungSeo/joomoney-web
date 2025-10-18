@@ -32,7 +32,7 @@
                 @click="name = ''"
               />
             </div>
-            <div v-if="nameError" class="error-msg">{{ nameError }}</div>
+            <div v-if="nameError" class="error-msg">{{ t(nameError) }}</div>
           </div>
 
           <button class="form-button" type="submit">{{ t("auth.button.continue") }}</button>
@@ -63,7 +63,7 @@ const nameError = ref("")
 
 const validateName = () => {
   if (!name.value.trim()) {
-    nameError.value = t("auth.error.name.required")
+    nameError.value = "auth.error.name.required"
   }
 }
 
@@ -76,7 +76,9 @@ const onSubmit = () => {
 
   if (!nameError.value) {
     store.signup.setName(name.value)
+
     console.log("🚀 회원가입 - 이름 입력:", store.signup.name)
+    
     goPage("Signup02_Email")
   }
 }

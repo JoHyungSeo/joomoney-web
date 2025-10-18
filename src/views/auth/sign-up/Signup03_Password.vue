@@ -39,7 +39,7 @@
                 @click="showPassword = !showPassword"
               />
             </div>
-            <div v-if="passwordError" class="error-msg">{{ passwordError }}</div>
+            <div v-if="passwordError" class="error-msg">{{ t(passwordError) }}</div>
           </div>
 
           <!-- 규칙 표시 -->
@@ -92,17 +92,17 @@ const hasNumber = computed(() => /[0-9]/.test(password.value))
 const hasSpecial = computed(() => /[!@#$%^&*(),.?":{}|<>_\-]/.test(password.value))
 
 const passwordRules = computed(() => [
-  { text: t('auth.signUp.password.rules.length'), valid: hasLength.value },
-  { text: t('auth.signUp.password.rules.upperCase'), valid: hasUpper.value },
-  { text: t('auth.signUp.password.rules.number'), valid: hasNumber.value },
-  { text: t('auth.signUp.password.rules.special'), valid: hasSpecial.value },
+  { text: "auth.signUp.password.rules.length", valid: hasLength.value },
+  { text: "auth.signUp.password.rules.upperCase", valid: hasUpper.value },
+  { text: "auth.signUp.password.rules.number", valid: hasNumber.value },
+  { text: "auth.signUp.password.rules.special", valid: hasSpecial.value },
 ])
 
 const validatePassword = () => {
   if (!password.value.trim()) {
-    passwordError.value = t("auth.error.password.required")
+    passwordError.value = "auth.error.password.required"
   } else if (!hasLength.value || !hasUpper.value || !hasNumber.value || !hasSpecial.value) {
-    passwordError.value = t("auth.error.password.rule")
+    passwordError.value = "auth.error.password.rule"
   }
 }
 
@@ -115,7 +115,9 @@ const onSubmit = () => {
 
   if (!passwordError.value) {
     store.signup.setPassword(password.value)
+
     console.log("🚀 회원가입 - 패스워드 입력:", store.signup.password)
+    
     goPage("Signup04_Birthday&Gender")
   }
 }
