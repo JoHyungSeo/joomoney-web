@@ -135,9 +135,9 @@ const dayError = ref(false)
 const birthdayError = ref("")
 
 const genderOptions = [
-  { value: "male", label: "auth.signUp.birthday_gender.male" },
-  { value: "female", label: "auth.signUp.birthday_gender.female" },
-  { value: "other", label: "auth.signUp.birthday_gender.other" }
+  { value: "MALE", label: "auth.signUp.birthday_gender.male" },
+  { value: "FEMALE", label: "auth.signUp.birthday_gender.female" },
+  { value: "OTHER", label: "auth.signUp.birthday_gender.other" }
 ]
 
 const indicatorStyle = computed(() => {

@@ -21,6 +21,7 @@
                 name="email"
                 :placeholder="t('auth.common.email')"
                 v-model="email"
+                maxlength="255"
                 :class="{ 'input-error': emailError }"
                 @focus="clearEmailError"
                 ref="emailInput"

@@ -21,6 +21,7 @@
                 name="name"
                 :placeholder="t('auth.common.name')"
                 v-model="name"
+                maxlength="50"
                 :class="{ 'input-error': nameError }"
                 @focus="clearNameError"
                 ref="nameInput"
