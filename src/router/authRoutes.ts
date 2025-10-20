@@ -16,44 +16,44 @@ const authRoutes: RouteRecordRaw[] = [
     path: "/login",
     name: "Login",
     component: () => import("@/views/auth/login/Login.vue"),
-    meta: getMeta("Login", "Log In | Balance"),
+    meta: getMeta("Login", "Log In | Joomoney"),
   },
   /************************* 회원가입 *************************/
   {
     path: "/sign-up/name",
     name: "Signup01_Name",
     component: () => import("@/views/auth/sign-up/Signup01_Name.vue"),
-    meta: getMeta("Signup01_Name", "Sign Up | Balance"),
+    meta: getMeta("Signup01_Name", "Sign Up | Joomoney"),
   },
   {
     path: "/sign-up/email",
     name: "Signup02_Email",
     component: () => import("@/views/auth/sign-up/Signup02_Email.vue"),
-    meta: getMeta("Signup02_Email", "Sign Up | Balance"),
+    meta: getMeta("Signup02_Email", "Sign Up | Joomoney"),
   },
   {
     path: "/sign-up/password",
     name: "Signup03_Password",
     component: () => import("@/views/auth/sign-up/Signup03_Password.vue"),
-    meta: getMeta("Signup03_Password", "Sign Up | Balance"),
+    meta: getMeta("Signup03_Password", "Sign Up | Joomoney"),
   },
   {
     path: "/sign-up/birthday&gender",
     name: "Signup04_Birthday&Gender",
     component: () => import("@/views/auth/sign-up/Signup04_Birthday&Gender.vue"),
-    meta: getMeta("Signup04_Birthday&Gender", "Sign Up | Balance"),
+    meta: getMeta("Signup04_Birthday&Gender", "Sign Up | Joomoney"),
   },
   {
     path: "/sign-up/finance",
     name: "Signup05_Finance",
     component: () => import("@/views/auth/sign-up/Signup05_Finance.vue"),
-    meta: getMeta("Signup05_Finance", "Sign Up | Balance"),
+    meta: getMeta("Signup05_Finance", "Sign Up | Joomoney"),
   },
   {
     path: "/sign-up/complete",
     name: "Signup06_Complete",
     component: () => import("@/views/auth/sign-up/Signup06_Complete.vue"),
-    meta: getMeta("Signup06_Complete", "Sign Up | Balance"),
+    meta: getMeta("Signup06_Complete", "Sign Up | Joomoney"),
   },
 ]
 

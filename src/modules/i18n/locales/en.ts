@@ -44,7 +44,7 @@ export default {
         title: "Enter your payday & currency",
       },
       complete: {
-        title: "Welcome to Balance",
+        title: "Welcome to Joomoney",
         description: "Your account has been created and is ready to use",
       },
     },
@@ -74,7 +74,7 @@ export default {
     button: {
       login: "Login",
       logIn: "Log in",
-      signUp: "Create a Balance Account",
+      signUp: "Create a Joomoney Account",
       continue: "Continue",
       next: "Next"
     }

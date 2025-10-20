@@ -44,7 +44,7 @@ export default {
         title: "월급날과 통화를 \n알려주세요",
       },
       complete: {
-        title: "Balance에 오신 것을 \n환영합니다",
+        title: "Joomoney에 오신 것을 \n환영합니다",
         description: "계정이 생성되었으며 이제 사용하실 수 있습니다",
       },
     },

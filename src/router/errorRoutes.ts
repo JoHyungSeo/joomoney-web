@@ -22,19 +22,19 @@ const errorRoutes: RouteRecordRaw = {
       path: "not-found",
       name: "PageNotFound",
       component: () => import("@/views/error/PageNotFound.vue"),
-      meta: getMeta("PageNotFound", "Page Not Found | Balance"),
+      meta: getMeta("PageNotFound", "Page Not Found | Joomoney"),
     },
     {
       path: "network-error",
       name: "NetworkError",
       component: () => import("@/views/error/NetworkError.vue"),
-      meta: getMeta("NetworkError", "Network Error | Balance"),
+      meta: getMeta("NetworkError", "Network Error | Joomoney"),
     },
     // {
     //   path: "server",
     //   name: "ServerError",
     //   component: () => import("@/views/error/ServerError.vue"),
-    //   meta: getMeta("ServerError", "Server Error | Balance"),
+    //   meta: getMeta("ServerError", "Server Error | Joomoney"),
     // },
   ],
 }
