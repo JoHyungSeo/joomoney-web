@@ -30,4 +30,5 @@ const layout = computed<LayoutKey>(() => {
 })
 </script>
 
-<style scoped></style>
+<style setup>
+</style>

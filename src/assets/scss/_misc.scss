@@ -1,0 +1,235 @@
+/* Layout → Size → Spacing → Typography → Visual → Effects */
+
+/* Display */
+.block { display: block; }
+.flex { display: flex; }
+.inline { display: inline; }
+.inline-flex { display: inline-flex; }
+.grid { display: grid; }
+
+/* Flex */
+.flex-col { flex-direction: column; }
+.flex-row { flex-direction: row; }
+
+.flex-none { flex: none; }
+.flex-0-0-auto { flex: 0 0 auto;}
+.flex-1 { flex: 1; }
+.flex-1-1 { flex: 1 1; }
+.flex-1-1-auto { flex: 1 1 auto; }
+.flex-1-1-0pct { flex: 1 1 0%; }
+
+.grid-template-col-1fr { grid-template-columns: 1fr; }
+.grid-template-col-1fr-auto { grid-template-columns: 1fr auto; }
+.grid-template-row-1fr-1fr { grid-template-rows: 1fr 1fr; }
+
+.flow-col-reverse { flex-flow: column-reverse;}
+
+.grow-1 { flex-grow: 1; }
+.grow-2 { flex-grow: 2; }
+
+.flex-shrink-0 { flex-shrink: 0; }
+
+.flex-wrap { flex-wrap: wrap; }
+.flex-nowrap { flex-wrap: nowrap; }
+
+.jus-content-start { justify-content: start; }
+.jus-content-center { justify-content: center; }
+.jus-content-end { justify-content: end; }
+
+.ali-items-start { align-items: start; }
+.ali-items-center { align-items: center; }
+.ali-items-end { align-items: end; }
+.ali-self-center { align-self: center; }
+
+/* Position */
+.pos-absolute { position: absolute; }
+.pos-fixed { position: fixed; }
+.pos-relative { position: relative; }
+.pos-static { position: static; }
+
+/* Inset */
+.inset-0-0-auto-auto { inset: 0 0 auto auto; }
+
+/* Z-Index */
+.z-1 { z-index: 1; }
+.z-1200 { z-index: 1200; }
+.z-1400 { z-index: 1400; }
+
+.top-100pct { top: 100%; }
+.top-50pct { top: 50%; }
+.top-0 { top: 0; }
+.top--3 { top: -3px; }
+
+.right-100pct { right: 100%; }
+.right-0 { right: 0; }
+.right--1 { right: -1px; }
+
+.bottom-100pct { bottom: 100%; }
+.bottom-0 { bottom: 0; }
+
+.left-100pct { left: 100%; }
+.left-50pct { left: 50%; }
+.left-16 { left: 16px; }
+.left-0 { left: 0; }
+
+/* Overflow */
+.overflow-visible { overflow: visible; }
+.overflow-auto { overflow: auto; }
+.overflow-hidden { overflow: hidden; }
+.overflow-hidden-auto { overflow: hidden auto; }
+.overflow-y-auto { overflow-y: auto; }
+.overflow-y-scroll { overflow-y: scroll; }
+
+/* Text */
+.text-ali-left { text-align: left; }
+.text-ali-center { text-align: center; }
+.text-overflow-ellipsis { text-overflow: ellipsis; }
+.text-decoration-none { text-decoration: none; }
+
+.white-space-nowrap { white-space: nowrap; }
+.word-break-all { word-break: break-all; }
+.word-break-word { word-break: break-word; }
+
+/* Text Color */
+.text-transparent { color: transparent; }
+.text-tertiary { color: var(--color-TertiaryText); }
+.text-yellow { color: var(--color-PrimaryYellow); }
+.text-primary { color: var(--color-PrimaryText); }
+.text-secondary { color: var(--color-SecondaryText); }
+.text-btn { color: var(--color-ButtonText); }
+.text-error { color: var(--color-Error); }
+.text-success { color: var(--color-Success); }
+.text-icon { color: var(--color-IconNormal); }
+.text-bg { color: var(--color-BasicBg); }
+.text-footer { color: var(--color-FooterText); }
+.text-link { color: var(--color-TextLink); }
+.text-disable { color: var(--color-DisableText); }
+.text-basic { color: var(--color-BasicBg); }
+.text-on-gray { color: var(--color-TextOnGray); }
+
+/* Caret & Placeholder */
+.caret-yellow { caret-color: var(--color-PrimaryYellow); }
+.placeholder-tertiary::placeholder { color: var(--color-TertiaryText); }
+
+/* Border */
+.border-none { border: none; }
+.border-solid-1 { border: 1px solid transparent; }
+.border-bottom-dot-1 { border-bottom: 1px dotted transparent; }
+
+.border-primary { border-color: var(--color-PrimaryText); }
+.border-line { border-color: var(--color-Line); }
+.border-error { border-color: var(--color-Error); }
+.border-success { border-color: var(--color-Success); }
+.border-input { border-color: var(--color-InputLine); }
+.border-icon { border-color: var(--color-IconNormal); }
+
+.br-2dot5 { border-radius: 2.5px; }
+.br-4 { border-radius: 4px; }
+.br-8 { border-radius: 8px; }
+.br-10 { border-radius: 10px; }
+.br-12 { border-radius: 12px; }
+.br-16 { border-radius: 16px; }
+.br-24 { border-radius: 24px; }
+
+/* Background Color */
+.bg-none { background: 0 0; }
+.bg-transparent { background-color: transparent; }
+.bg-btn { background-color: var(--color-BtnBg); }
+.bg-btn-text { background-color: var(--color-ButtonText); }
+.bg-basic { background-color: var(--color-BasicBg); }
+.bg-line { background-color: var(--color-Line); }
+.bg-popup { background-color: var(--color-PopupBackground); }
+.bg-text-on-yellow { background-color: var(--color-TextOnYellow);}
+.bg-card { background-color: var(--color-CardBg);}
+.bg-primary { background-color: var(--color-PrimaryText); }
+.bg-toast { background-color: var(--color-ToastBg); }
+.bg-input { background-color: var(--color-Input); }
+.bg-toast-arrow::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 100%;
+  visibility: visible;
+  transform: rotate(225deg);
+  background: linear-gradient(-45deg, var(--color-ToastBg) 0%, var(--color-ToastBg) 52%, transparent 52%, transparent 100%);
+}
+
+.shadow-1 { box-shadow: var(--shadow1-layer1), var(--shadow1-layer2);}
+.shadow-2 { box-shadow: var(--shadow2-layer1), var(--shadow2-layer2), var(--shadow2-layer3);}
+
+/* List Bullet */
+.list-bullet::before {
+  content: '•';
+  display: block;
+  margin-right: 8px;
+}
+
+/* Hover */
+.hover\:text-yellow:hover { color: var(--color-PrimaryYellow); }
+.hover\:text-tertiary:hover { color: var(--color-TertiaryText); }
+.hover\:text-btn:hover { color: var(--color-BtnBg); }
+.hover\:text-link:hover { color: var(--color-TextLink); }
+
+.hover\:border-primary:hover { border-color: var(--color-PrimaryText); }
+.hover\:border-yellow:hover { border-color: var(--color-PrimaryYellow); }
+
+.hover-parent:hover .hover\:text-yellow { color: var(--color-PrimaryYellow); }
+
+/* Focus */
+.focus-visible\:text-yellow:focus-visible { color: var(--color-PrimaryYellow); }
+.focus-visible\:bg-yellow:focus-visible { background-color: var(--color-PrimaryYellow); }
+.focus-visible-parent:focus-visible .focus-visible\:text-yellow { color: var(--color-PrimaryYellow); }
+
+.focus-within\:border-yellow:focus-within { border-color: var(--color-PrimaryYellow); }
+
+/* Active */
+.active\:text-yellow:active { color: var(--color-PrimaryYellow); }
+.active\:bg-yellow:active { background-color: var(--color-PrimaryYellow); }
+
+/* Opacity */
+.opacity-0 { opacity: 0; }
+.opacity-1 { opacity: 1; }
+.hover\:opacity-80:hover { opacity: 0.8; }
+
+/* Visibility */
+.visibility-visible { visibility: visible; }
+.visibility-hidden { visibility: hidden; }
+
+/* Transform */
+.transform-origin-top { transform-origin: top; }
+.transform-scale-1 { transform: scale(1); }
+.transform-translate--607-413 { transform: translate(-607px, 413px); }
+.transform-translate-206-0 { transform: translate(206px, 0px); }
+.transform-translate-x--50pct { transform: translateX(-50%); }
+.transform-translate-y--50pct { transform: translateY(-50%);}
+.transform-translate--50pct-0 { transform: translate(-50%, 0px); }
+.transform-rotate-225 { transform: rotate(225deg); }
+
+/* Transition */
+.transition-all { transition-property: all !important; }
+.transition-opacity-visibility { transition-property: opacity, visibility !important; }
+.transition-dur-250 { transition-duration: 250ms !important; }
+.transition-dur-300 { transition-duration: 300ms !important; }
+.transition-timing-ease { transition-timing-function: ease !important; }
+.transition-timing-ease-in-out { transition-timing-function: ease-in-out !important; }
+
+/* Animation */
+.anim-nm-jumpScaleY { animation-name: jumpScaleY; }
+.anim-dur-1500 { animation-duration: 1500ms; }
+.anim-timing-linear { animation-timing-function: linear; }
+.anim-iteration-infinite { animation-iteration-count: infinite; }
+
+/* Interaction */
+.appearance-none { appearance: none; }
+.user-select-none { user-select: none; }
+.cursor-pointer { cursor: pointer; }
+
+/* Keyframes */
+@keyframes jumpScaleY {
+    0% { transform: translateY(0) scaleY(1); }
+    7.5% { transform: translateY(-120%) scaleY(2); }
+    15%, 35% { transform: translateY(-120%) scaleY(0.5); }
+    43.5% { transform: translateY(0) scaleY(2); }
+    52.5%, 72.5% { transform: translateY(120%) scaleY(0.5); }
+    80%, to { transform: translateY(0) scaleY(1); }
+}

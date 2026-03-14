@@ -6,5 +6,5 @@
 import Layout from "@/components/layout/layout.vue"
 </script>
 
-<style scoped>
+<style setup>
 </style>

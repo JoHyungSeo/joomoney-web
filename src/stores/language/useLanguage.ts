@@ -1,28 +1,15 @@
 import { defineStore } from "pinia"
 import { ref } from "vue"
 import useApi from "@/modules/api"
-import i18n from "@/modules/i18n";
+import i18n, { getSupportedLanguages } from "@/modules/i18n"
 
 export const useLanguageStore = defineStore("language", () => {
-  const api = useApi();
+  const api = useApi()
 
-  const getSupportedLanguages = (): readonly string[] => {
-    return Object.freeze(
-      Object.keys(import.meta.glob("@/modules/i18n/locales/*.{ts,js}"))
-        .map((file) => file.match(/\/locales\/([A-Za-z-]+)\.(?:ts|js)$/)?.[1])
-        .filter((file): file is string => !!file)
-        .sort()
-    )
-  }
-
+  // i18n에서 export한 함수 사용 (중복 제거)
   const getCurrentLanguage = (): string => {
-    const localLanguage = localStorage.getItem("language")
-    const browserLanguage = navigator.language.toLowerCase().split(/[-_]/).shift() as string
-    const language = localLanguage || browserLanguage
-
-    if (getSupportedLanguages().includes(language)) { return language }
-    
-    return "en"
+    // i18n.global.locale에서 현재 언어 가져오기
+    return i18n.global.locale.value as string
   }
 
   const getAllLanguages = async () => {
@@ -30,7 +17,7 @@ export const useLanguageStore = defineStore("language", () => {
       const res = await api.common.getCommonCodes("LANGUAGE_TYPE")
       return res.data.codes
     } catch (e) {
-      console.error("[i18n] Failed to get allLanguages : ", e)
+      console.log("[i18n] Failed to get allLanguages: ", e)
     }
   }
 
@@ -63,4 +50,4 @@ export const useLanguageStore = defineStore("language", () => {
     getAllLanguages,
     setLanguage,
   }
-});
+})

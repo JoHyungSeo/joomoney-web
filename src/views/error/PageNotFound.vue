@@ -3,5 +3,9 @@
     Page Not Found
   </div>
 </template>
-<script lang="ts"></script>
-<style setup></style>
+
+<script lang="ts">
+</script>
+
+<style setup>
+</style>

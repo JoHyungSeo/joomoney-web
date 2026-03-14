@@ -13,7 +13,18 @@ declare module "vue-router" {
 }
 
 const routes: RouteRecordRaw[] = [
-  { 
+  {
+    path: "/",
+    name: "Home",
+    component: () => import("@/views/home/Home.vue"),
+    meta: {
+      name: "Home",
+      title: "Home | Joomoney",
+      layout: "DefaultLayout",
+      authCheck: true,
+    },
+  },
+  {
     path: "/cookie",
     name: "Cookie",
     component: () => import("@/views/policies/Cookie.vue"),

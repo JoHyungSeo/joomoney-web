@@ -15,12 +15,10 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log("[BeforeEach] to:", to)
   beforeCheck(to, from, next)
 })
 
 router.beforeResolve((to) => {
-  console.log("[BeforeResolve] path:", to.path)
 })
 
 router.afterEach((to) => {
@@ -55,24 +53,50 @@ const beforeCheck = (
     return next("/")
   }
 
-  if (to.name === "Signup02_Email" && !store.signup.name) {
-    return next({ name: "Signup01_Name" })
+  // Sign Up
+  if (to.name === "SignUpName" && !store.signup.userId) {
+    return next({ name: "SignUpUserId" })
   }
-  if (to.name === "Signup03_Password" && !store.signup.email) {
-    return next({ name: "Signup02_Email" })
+  if (to.name === "SignUpEmail" && !store.signup.name) {
+    return next({ name: "SignUpName" })
   }
-  if (to.name === "Signup04_Birthday&Gender" && !store.signup.password) {
-    return next({ name: "Signup03_Password" })
+  if (to.name === "SignUpEmailVerification" && !store.signup.email) {
+    return next({ name: "SignUpEmail" })
   }
-  if (to.name === "Signup05_Finance" && !store.signup.password) {
-    return next({ name: "Signup03_Password" })
+  if (to.name === "SignUpPassword" && !store.signup.verificationToken) {
+    return next({ name: "SignUpEmail" })
   }
-  if (to.name === "Signup06_Complete" && !store.signup.password) {
-    return next({ name: "Signup03_Password" })
+  if (to.name === "SignUpBirthdayGender" && !store.signup.password) {
+    return next({ name: "SignUpPassword" })
+  }
+  if (to.name === "SignUpComplete" && !store.signup.password) {
+    return next({ name: "SignUpPassword" })
+  }
+
+  // Reset Password
+  if (to.name === "ResetPasswordVerification" && !store.resetPassword.maskedEmail) {
+    return next({ name: "ResetPassword" })
+  }
+  if (to.name === "ResetPasswordNew" && !store.resetPassword.verificationToken) {
+    return next({ name: "ResetPassword" })
+  }
+
+  // Find ID
+  if (to.name === "FindIdVerification" && !store.findId.email) {
+    return next({ name: "FindId" })
+  }
+  if (to.name === "FindIdResult" && !store.findId.foundUserId) {
+    return next({ name: "FindId" })
   }
 
   if (!to.path.startsWith("/sign-up")) {
     store.signup.reset()
+  }
+  if (!to.path.startsWith("/reset-password")) {
+    store.resetPassword.reset()
+  }
+  if (!to.path.startsWith("/find-id")) {
+    store.findId.reset()
   }
 
   next()

@@ -1,13 +1,19 @@
 import router from '@/router'
 
-export const goPage = (pageName: string, replaceYn = false) => {
+export const goPage = (pageName: string, replaceYn = false, newTab = false) => {
   try {
+    if (newTab) {
+      const url = router.resolve({ name: pageName }).href
+      window.open(url, '_blank')
+      return
+    }
+
     if (!replaceYn) {
       router.push({ name: pageName })
     } else {
       router.replace({ name: pageName })
     }
   } catch (error) {
-    console.error('라우터 이동 중 오류 발생:', error)
+    console.log('[Router] Error during router movement: ', error)
   }
 }
