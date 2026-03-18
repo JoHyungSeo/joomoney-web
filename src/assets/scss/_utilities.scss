@@ -1,8 +1,8 @@
 @use "sass:list";
 
-// 공용 값 리스트: 0~10000 (1단위)
+// 공용 값 리스트: 0~3000 (1단위)
 $values: ();
-@for $i from 0 through 10000 {
+@for $i from 0 through 3000 {
   $values: list.append($values, $i);
 }
 
@@ -110,9 +110,11 @@ $padding-dirs: (
 @each $prefix, $prop in $padding-dirs {
   @include gen($prefix, $prop);
 }
-
 @include gen-axis("px", "padding-left", "padding-right");
 @include gen-axis("py", "padding-top", "padding-bottom");
+
+@include gen("p-inline-start", "padding-inline-start");
+@include gen("p-inline-end", "padding-inline-end");
 
 /* ========== Gap ========== */
 

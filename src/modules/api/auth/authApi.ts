@@ -50,6 +50,15 @@ export interface findUserIdParams {
   verificationToken: string
 }
 
+export interface googleLoginParams {
+  idToken: string
+  deviceInformation: DeviceInformation
+  userConfiguration?: {
+    language: string
+    theme: string
+  }
+}
+
 export interface signUpParams {
   userId: string
   name: string
@@ -72,6 +81,10 @@ export interface refreshTokenParams {
 
 export const login = async (params: loginParams) => {
   return await $api.post(`/api/v1/auth/login`, params)
+}
+
+export const googleLogin = async (params: googleLoginParams) => {
+  return await $api.post(`/api/v1/auth/google/login`, params)
 }
 
 export const refreshToken = async (params: refreshTokenParams) => {
@@ -111,5 +124,5 @@ export const signUp = async (params: signUpParams) => {
 }
 
 export default {
-  login, refreshToken, checkDuplicateUserId, emailVerificationRequest, emailVerificationValidate, passwordResetRequest, passwordResetValidate, passwordReset, findUserId, signUp
+  login, googleLogin, refreshToken, checkDuplicateUserId, emailVerificationRequest, emailVerificationValidate, passwordResetRequest, passwordResetValidate, passwordReset, findUserId, signUp
 }

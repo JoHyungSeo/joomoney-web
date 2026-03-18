@@ -25,7 +25,6 @@ export const useFindIdStore = defineStore("findId", () => {
       })
       return { success: true }
     } catch (error) {
-      console.log("[FindId] Failed to request email verification: ", error)
       return { success: false, error }
     }
   }
@@ -41,7 +40,6 @@ export const useFindIdStore = defineStore("findId", () => {
       verificationToken.value = res.data.verificationToken
       return { success: true }
     } catch (error) {
-      console.log("[FindId] Failed to validate email verification: ", error)
       return { success: false, error }
     }
   }
@@ -56,7 +54,6 @@ export const useFindIdStore = defineStore("findId", () => {
       foundUserId.value = res.data.userId
       return { success: true }
     } catch (error) {
-      console.log("[FindId] Failed to find user ID: ", error)
       return { success: false, error }
     }
   }

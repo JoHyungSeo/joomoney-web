@@ -187,6 +187,16 @@ export default {
         dormant: "This account is dormant",
         suspended: "This account has been suspended",
       },
+      google: {
+        emailAlreadyLocal: "This email is already registered with a local account. Please log in with your ID and password",
+        failed: "Google login failed. Please try again later",
+      },
+    },
+
+    footer: {
+      language: "Language",
+      cookie: "Cookie",
+      privacy: "Privacy",
     },
 
     button: {
@@ -197,13 +207,6 @@ export default {
       next: "Next",
       needHelp: "Need help?",
       ok: "OK",
-    }
-  },
-  footer: {
-    common: {
-      language: "Language",
-      cookie: "Cookie",
-      privacy: "Privacy",
     },
   }
 }

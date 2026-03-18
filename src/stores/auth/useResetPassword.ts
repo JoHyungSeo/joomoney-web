@@ -25,7 +25,6 @@ export const useResetPasswordStore = defineStore("resetPassword", () => {
       })
       return { success: true }
     } catch (error) {
-      console.log("[ResetPassword] Failed to request password reset: ", error)
       return { success: false, error }
     }
   }
@@ -40,7 +39,6 @@ export const useResetPasswordStore = defineStore("resetPassword", () => {
       verificationToken.value = res.data.verificationToken
       return { success: true }
     } catch (error) {
-      console.log("[ResetPassword] Failed to validate password reset: ", error)
       return { success: false, error }
     }
   }
@@ -55,7 +53,6 @@ export const useResetPasswordStore = defineStore("resetPassword", () => {
       })
       return { success: true }
     } catch (error) {
-      console.log("[ResetPassword] Failed to reset password: ", error)
       return { success: false, error }
     }
   }

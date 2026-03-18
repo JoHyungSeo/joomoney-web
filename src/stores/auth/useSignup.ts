@@ -45,7 +45,6 @@ export const useSignupStore = defineStore("signup", () => {
       const res = await api.auth.checkDuplicateUserId({ target: userId.value })
       return { success: true, isDuplicate: res.data.isDuplicate }
     } catch (error) {
-      console.log("[CheckDuplicateUserId] Failed to check duplicate userId: ", error)
       return { success: false, error }
     }
   }
@@ -60,7 +59,6 @@ export const useSignupStore = defineStore("signup", () => {
       })
       return { success: true }
     } catch (error) {
-      console.log("[EmailVerification] Failed to request email verification: ", error)
       return { success: false, error }
     }
   }
@@ -76,7 +74,6 @@ export const useSignupStore = defineStore("signup", () => {
       verificationToken.value = res.data.verificationToken
       return { success: true }
     } catch (error) {
-      console.log("[EmailVerification] Failed to validate email verification: ", error)
       return { success: false, error }
     }
   }
@@ -112,7 +109,6 @@ export const useSignupStore = defineStore("signup", () => {
 
       return { success: true }
     } catch (error) {
-      console.log("[SignUp] Failed to sign up: ", error)
       return { success: false, error }
     }
   }

@@ -187,8 +187,18 @@ export default {
         dormant: "휴면 상태의 계정입니다",
         suspended: "정지된 계정입니다",
       },
+      google: {
+        emailAlreadyLocal: "이미 일반 계정으로 가입된 이메일입니다. 아이디와 패스워드로 로그인해 주세요",
+        failed: "Google 로그인에 실패했습니다. 잠시 후 다시 시도해 주세요",
+      },
     },
     
+    footer: {
+      language: "언어",
+      cookie: "쿠키",
+      privacy: "개인정보 처리방침",
+    },
+
     button: {
       login: "로그인",
       logIn: "로그인",
@@ -197,13 +207,6 @@ export default {
       next: "계속하기",
       needHelp: "도움이 필요하신가요?",
       ok: "확인",
-    },
-  },
-  footer: {
-    common: {
-      language: "언어",
-      cookie: "쿠키",
-      privacy: "개인정보 처리방침"
     },
   }
 }

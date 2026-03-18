@@ -43,8 +43,6 @@ export const useThemeStore = defineStore("theme", () => {
     } else {
       root.setAttribute("data-theme", "LIGHT")
     }
-
-    console.log(`[Theme] Applied theme: ${theme.toLowerCase()}`)
   }
 
   // Theme 설정 (localStorage 저장 + HTML 적용)
@@ -52,7 +50,6 @@ export const useThemeStore = defineStore("theme", () => {
     currentTheme.value = theme
     localStorage.setItem("theme", theme)
     applyTheme()
-    console.log(`[Theme] Theme set to: ${theme}`)
   }
 
   // localStorage 또는 기본값에서 theme 로드
@@ -68,7 +65,6 @@ export const useThemeStore = defineStore("theme", () => {
     }
 
     applyTheme()
-    console.log(`[Theme] Loaded theme: ${currentTheme.value}`)
   }
 
   // 로그인 시 서버에서 받은 theme 적용
@@ -76,7 +72,6 @@ export const useThemeStore = defineStore("theme", () => {
     currentTheme.value = theme
     localStorage.setItem("theme", theme)
     applyTheme()
-    console.log(`[Theme] Theme set from server: ${theme}`)
   }
 
   // 초기화

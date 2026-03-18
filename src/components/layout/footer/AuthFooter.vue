@@ -21,7 +21,7 @@
                   <div class="min-w-0 w-196 h-370">
                     <div class="min-w-0 text-primary">
                       <div class="min-w-0 mb-16 fs-14 fw-400 lh-20 text-tertiary">
-                        {{  t("footer.common.language") }}
+                        {{  t("auth.footer.language") }}
                       </div>
                       <div class="inline-flex flex-nowrap ali-items-center w-100pct max-w-100vw h-32 px-12 gap-8 fs-14 text-primary border-solid-1 border-input br-8 bg-none transition-all transition-dur-250 transition-timing-ease-in-out">
                         <input
@@ -32,7 +32,7 @@
                           name="search"
                           v-model="search"
                           maxlength="50"
-                          :placeholder="t('footer.common.language')"
+                          :placeholder="t('auth.footer.language')"
                           ref="searchInput"
                         />
                       </div>

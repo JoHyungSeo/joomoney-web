@@ -28,6 +28,32 @@ export interface DeviceInfo {
   ip?: string
 }
 
+export interface GoogleLoginResponse {
+  accessToken: string
+  refreshToken: string
+  isNewUser: boolean
+  userInformation: {
+    userSeq: number
+    userId: string
+    name: string
+    email: string
+    birthday: string | null
+    gender: "M" | "F" | "O" | null
+    userStatus: "A" | "B" | "D" | "S"
+    loginDt: string | null
+    userConfiguration: {
+      language: string
+      theme: "SYSTEM" | "LIGHT" | "DARK"
+    }
+  }
+  deviceInformation: {
+    deviceId: string
+    deviceType: string
+    os: string
+    platform: string
+  }
+}
+
 // 백엔드 응답 인터페이스
 export interface LoginResponse {
   accessToken: string
@@ -204,7 +230,114 @@ export const useAuthStore = defineStore("userAuth", () => {
 
       return { success: true }
     } catch (error) {
-      console.log("[Login] Failed to login: ", error)
+      return { success: false, error }
+    }
+  }
+
+  // Google 로그인 - 숨겨진 렌더 버튼 방식
+  let googleInitialized = false
+  let googleButtonContainer: HTMLDivElement | null = null
+  let googleCredentialResolve: ((token: string) => void) | null = null
+  let googleCredentialReject: ((error: Error) => void) | null = null
+
+  const initializeGoogle = () => {
+    const google = (window as any).google
+    if (!google?.accounts?.id) return
+
+    google.accounts.id.initialize({
+      client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+      callback: (response: any) => {
+        if (response.credential && googleCredentialResolve) {
+          googleCredentialResolve(response.credential)
+        } else if (googleCredentialReject) {
+          googleCredentialReject(new Error("No credential received"))
+        }
+        googleCredentialResolve = null
+        googleCredentialReject = null
+      },
+    })
+
+    // 숨겨진 Google 버튼을 한 번만 생성
+    googleButtonContainer = document.createElement("div")
+    googleButtonContainer.style.position = "fixed"
+    googleButtonContainer.style.top = "-1000px"
+    googleButtonContainer.style.left = "-1000px"
+    document.body.appendChild(googleButtonContainer)
+
+    google.accounts.id.renderButton(googleButtonContainer, {
+      type: "standard",
+      size: "large",
+    })
+
+    googleInitialized = true
+  }
+
+  const getGoogleIdToken = (): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const google = (window as any).google
+      if (!google?.accounts?.id) {
+        return reject(new Error("Google Identity Services not loaded"))
+      }
+
+      if (!googleInitialized) {
+        initializeGoogle()
+      }
+
+      googleCredentialResolve = resolve
+      googleCredentialReject = reject
+
+      // 숨겨진 Google 버튼 클릭
+      setTimeout(() => {
+        const btn = googleButtonContainer?.querySelector('div[role="button"]') as HTMLElement
+        if (btn) {
+          btn.click()
+        } else {
+          reject(new Error("Google login button not rendered"))
+        }
+      }, googleInitialized ? 0 : 100)
+    })
+  }
+
+  const googleLogin = async () => {
+    try {
+      const deviceInformation = getDeviceInfo()
+
+      const idToken = await getGoogleIdToken()
+
+      const params = {
+        idToken,
+        deviceInformation,
+        userConfiguration: {
+          language: store.language.getCurrentLanguage(),
+          theme: store.theme.currentTheme,
+        },
+      }
+
+      const res = await api.auth.googleLogin(params)
+      const responseData = res.data as GoogleLoginResponse
+
+      const userData: User = {
+        userSeq: responseData.userInformation.userSeq,
+        userId: responseData.userInformation.userId,
+        name: responseData.userInformation.name,
+        email: responseData.userInformation.email,
+        birthday: responseData.userInformation.birthday,
+        gender: responseData.userInformation.gender,
+        userStatus: responseData.userInformation.userStatus,
+        loginDt: responseData.userInformation.loginDt,
+      }
+
+      const userConfigData: UserConfiguration = responseData.userInformation.userConfiguration
+
+      setUser(userData)
+      setUserConfig(userConfigData)
+      setTokens(responseData.accessToken, responseData.refreshToken)
+
+      store.language.setLanguage(userConfigData.language)
+      store.theme.setThemeFromServer(userConfigData.theme)
+
+      return { success: true, isNewUser: responseData.isNewUser }
+    } catch (error) {
       return { success: false, error }
     }
   }
@@ -218,7 +351,6 @@ export const useAuthStore = defineStore("userAuth", () => {
       clearAuth()
       return { success: true }
     } catch (error) {
-      console.log("[Logout] Failed to logout: ", error)
       clearAuth() // 에러가 나도 로컬 데이터는 삭제
       return { success: false, error }
     }
@@ -228,7 +360,6 @@ export const useAuthStore = defineStore("userAuth", () => {
   const refresh = async () => {
     try {
       if (!refreshToken.value) {
-        console.log("[Refresh] No refresh token available")
         clearAuth()
         return null
       }
@@ -241,10 +372,8 @@ export const useAuthStore = defineStore("userAuth", () => {
 
       setTokens(newAccessToken, newRefreshToken)
 
-      console.log("[Refresh] Token refreshed successfully")
       return { accessToken: newAccessToken, refreshToken: newRefreshToken }
     } catch (error) {
-      console.log("[Refresh] Failed to refresh token: ", error)
       clearAuth()
       return null
     }
@@ -259,7 +388,6 @@ export const useAuthStore = defineStore("userAuth", () => {
       })
       return { success: true, data: res.data }
     } catch (error) {
-      console.log("[PasswordReset] Failed to request password reset: ", error)
       return { success: false, error }
     }
   }
@@ -305,7 +433,6 @@ export const useAuthStore = defineStore("userAuth", () => {
 
       return !!storedAccessToken && !!storedUser
     } catch (error) {
-      console.log("[AuthStorage] Failed to load auth from storage: ", error)
       return false
     }
   }
@@ -343,6 +470,7 @@ export const useAuthStore = defineStore("userAuth", () => {
     setDeviceId,
     getDeviceInfo,
     login,
+    googleLogin,
     logout,
     refresh,
     passwordResetRequest,

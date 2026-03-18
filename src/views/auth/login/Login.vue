@@ -97,7 +97,7 @@
             <div class="px-16">or</div>
             <div class="flex-1 h-1 bg-line"></div>
           </div>
-          <button type="button" class="flex pos-relative jus-content-center ali-items-center overflow-hidden min-w-48 w-100pct min-h-48 h-48 px-20 gap-5 fs-16 fw-500 lh-24 text-ali-center text-overflow-ellipsis text-decoration-none white-space-nowrap word-break-all border-solid-1 border-input br-12 bg-none user-select-none">
+          <button @click="handleGoogleLogin" type="button" class="flex pos-relative jus-content-center ali-items-center overflow-hidden min-w-48 w-100pct min-h-48 h-48 px-20 gap-5 fs-16 fw-500 lh-24 text-ali-center text-overflow-ellipsis text-decoration-none white-space-nowrap word-break-all border-solid-1 border-input br-12 bg-none user-select-none">
             <div class="flex pos-absolute z-1 jus-content-center ali-items-center min-w-0 w-26 left-16 ml-4">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path opacity="0.987" fill-rule="evenodd" clip-rule="evenodd" d="M9.01125 1.32624C9.9175 1.22499 10.4537 1.22499 11.4275 1.32624C13.1512 1.58136 14.749 2.3781 15.99 3.60124C15.1514 4.39391 14.3238 5.19816 13.5075 6.01374C11.9442 4.68874 10.1992 4.38291 8.2725 5.09624C6.85916 5.74624 5.875 6.79958 5.32 8.25624C4.41305 7.58103 3.51791 6.89009 2.635 6.18374C2.57364 6.15145 2.50356 6.13962 2.435 6.14999C3.8375 3.44583 6.02916 1.83749 9.01 1.32499" fill="#F44336"/>
@@ -201,6 +201,28 @@ const clearPassword = () => {
 const clearPasswordError = () => {
   passwordError.value = ""
   loginError.value = ""
+}
+
+const googleLoginErrorCodeMap: Record<string, string> = {
+  ERR_GOOGLE_EMAIL_ALREADY_LOCAL: "auth.error.google.emailAlreadyLocal",
+  ERR_USER_BANNED: "auth.error.login.banned",
+  ERR_USER_DORMANT: "auth.error.login.dormant",
+  ERR_USER_SUSPENDED: "auth.error.login.suspended",
+}
+
+const handleGoogleLogin = async () => {
+  loginError.value = ""
+
+  const res = await store.auth.googleLogin()
+
+  if (res.success) {
+    goPage("Home")
+  } else {
+    if (res.error instanceof AxiosError) {
+      const resultCode = res.error.response?.data?.code as string
+      loginError.value = googleLoginErrorCodeMap[resultCode] ?? "auth.error.google.failed"
+    }
+  }
 }
 
 const login = async () => {

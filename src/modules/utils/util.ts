@@ -14,6 +14,6 @@ export const goPage = (pageName: string, replaceYn = false, newTab = false) => {
       router.replace({ name: pageName })
     }
   } catch (error) {
-    console.log('[Router] Error during router movement: ', error)
+    console.log(error)
   }
 }

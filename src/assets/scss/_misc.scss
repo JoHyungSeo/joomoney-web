@@ -35,6 +35,7 @@
 .jus-content-start { justify-content: start; }
 .jus-content-center { justify-content: center; }
 .jus-content-end { justify-content: end; }
+.jus-content-space-between { justify-content: space-between; }
 
 .ali-items-start { align-items: start; }
 .ali-items-center { align-items: center; }
@@ -46,6 +47,7 @@
 .pos-fixed { position: fixed; }
 .pos-relative { position: relative; }
 .pos-static { position: static; }
+.pos-sticky { position: sticky; }
 
 /* Inset */
 .inset-0-0-auto-auto { inset: 0 0 auto auto; }

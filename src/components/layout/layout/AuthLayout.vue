@@ -1,10 +1,10 @@
 <template>
   <slot></slot>
-  <Footer></Footer>
+  <AuthFooter></AuthFooter>
 </template>
 
 <script setup lang="ts">
-import Footer from '@/components/layout/footer/Footer.vue'
+import AuthFooter from '@/components/layout/footer/AuthFooter.vue'
 </script>
 
 <style setup>

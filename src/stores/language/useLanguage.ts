@@ -16,8 +16,8 @@ export const useLanguageStore = defineStore("language", () => {
     try {
       const res = await api.common.getCommonCodes("LANGUAGE_TYPE")
       return res.data.codes
-    } catch (e) {
-      console.log("[i18n] Failed to get allLanguages: ", e)
+    } catch (error) {
+      console.log(error)
     }
   }
 
